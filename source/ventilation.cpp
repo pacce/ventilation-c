@@ -855,7 +855,6 @@ VENTILATION_pressure_le(
 }
 
 struct VENTILATION_Volume *
-h
 VENTILATION_volume_create(const float value, VENTILATION_error * error) {
     *error = VENTILATION_ERROR_OK;
 
