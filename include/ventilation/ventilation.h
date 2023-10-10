@@ -471,6 +471,15 @@ VENTILATION_packet_create(const float, const float, const float, VENTILATION_err
 void
 VENTILATION_packet_delete(struct VENTILATION_Packet*, VENTILATION_error*);
 
+struct VENTILATION_Pressure *
+VENTILATION_packet_pressure(struct VENTILATION_Packet*, VENTILATION_error*);
+
+struct VENTILATION_Flow *
+VENTILATION_packet_flow(struct VENTILATION_Packet*, VENTILATION_error*);
+
+struct VENTILATION_Volume *
+VENTILATION_packet_volume(struct VENTILATION_Packet*, VENTILATION_error*);
+
 #ifdef __cplusplus
 }
 #endif
