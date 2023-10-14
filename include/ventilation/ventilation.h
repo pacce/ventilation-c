@@ -27,6 +27,8 @@ struct VENTILATION_Volume;
 
 struct VENTILATION_Packet;
 
+struct VENTILATION_Lung;
+
 struct VENTILATION_Compliance *
 VENTILATION_compliance_create(const float, VENTILATION_error*);
 
@@ -479,6 +481,18 @@ VENTILATION_packet_flow(struct VENTILATION_Packet*, VENTILATION_error*);
 
 struct VENTILATION_Volume *
 VENTILATION_packet_volume(struct VENTILATION_Packet*, VENTILATION_error*);
+
+struct VENTILATION_Lung *
+VENTILATION_lung_create(const float r, const float e, VENTILATION_error*);
+
+void
+VENTILATION_lung_delete(struct VENTILATION_Lung*, VENTILATION_error*);
+
+struct VENTILATION_Resistance *
+VENTILATION_lung_resistance(struct VENTILATION_Lung*, VENTILATION_error*);
+
+struct VENTILATION_Elastance *
+VENTILATION_lung_elastance(struct VENTILATION_Lung*, VENTILATION_error*);
 
 #ifdef __cplusplus
 }

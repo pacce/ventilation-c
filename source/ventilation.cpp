@@ -59,6 +59,20 @@ struct VENTILATION_Packet {
     VENTILATION_Packet(const ventilation::Packet<float>& v) : value(v) {}
 };
 
+struct VENTILATION_Lung {
+    ventilation::lung::Forward<float> value;
+
+    using Resistance    = ventilation::Resistance<float>;
+    using Elastance     = ventilation::Elastance<float>;
+
+    VENTILATION_Lung(const float r, const float e) : VENTILATION_Lung(Resistance(r), Elastance(e))
+    {}
+
+    VENTILATION_Lung(const ventilation::Resistance<float>& r, const ventilation::Elastance<float>& e)
+        : value(r, e)
+    {}
+};
+
 struct VENTILATION_Compliance *
 VENTILATION_compliance_create(const float value, VENTILATION_error * error) {
     *error = VENTILATION_ERROR_OK;
@@ -1028,7 +1042,7 @@ VENTILATION_packet_create(
 }
 
 void
-VENTILATION_packet_delete(struct VENTILATION_Packet* context, VENTILATION_error* error) {
+VENTILATION_packet_delete(struct VENTILATION_Packet * context, VENTILATION_error * error) {
     if (nullptr == context) {
         *error = VENTILATION_ERROR_NULL;
     } else {
@@ -1071,4 +1085,46 @@ VENTILATION_packet_volume(struct VENTILATION_Packet * context, VENTILATION_error
         v = new VENTILATION_Volume(context->value.volume);
     }
     return v;
+}
+
+struct VENTILATION_Lung *
+VENTILATION_lung_create(const float r, const float e, VENTILATION_error * error) {
+    *error = VENTILATION_ERROR_OK;
+
+    struct VENTILATION_Lung * context = new VENTILATION_Lung(r, e);
+    return context;
+}
+
+void
+VENTILATION_lung_delete(struct VENTILATION_Lung * context, VENTILATION_error * error) {
+    if (nullptr == context) {
+        *error = VENTILATION_ERROR_NULL;
+    } else {
+        *error = VENTILATION_ERROR_OK;
+        delete context;
+    }
+}
+
+struct VENTILATION_Resistance *
+VENTILATION_lung_resistance(struct VENTILATION_Lung * context, VENTILATION_error * error) {
+    VENTILATION_Resistance * r = nullptr;
+    if (nullptr == context) {
+        *error = VENTILATION_ERROR_NULL;
+    } else {
+        *error  = VENTILATION_ERROR_OK;
+        r       = new VENTILATION_Resistance(context->value.resistance());
+    }
+    return r;
+}
+
+struct VENTILATION_Elastance *
+VENTILATION_lung_elastance(struct VENTILATION_Lung * context, VENTILATION_error * error) {
+    VENTILATION_Elastance * e = nullptr;
+    if (nullptr == context) {
+        *error = VENTILATION_ERROR_NULL;
+    } else {
+        *error  = VENTILATION_ERROR_OK;
+        e       = new VENTILATION_Elastance(context->value.elastance());
+    }
+    return e;
 }

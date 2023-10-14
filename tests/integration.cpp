@@ -73,6 +73,29 @@ TEST(Volume, Identity) {
     ASSERT_EQ(error, VENTILATION_ERROR_OK);
 }
 
+TEST(Lung, Identity) {
+    VENTILATION_error error         = VENTILATION_ERROR_OK;
+    VENTILATION_Lung * context      = VENTILATION_lung_create(1.0f, 1.0f, &error);
+    ASSERT_EQ(error, VENTILATION_ERROR_OK);
+
+    VENTILATION_Elastance * elastance   = VENTILATION_lung_elastance(context, &error);
+    ASSERT_EQ(error, VENTILATION_ERROR_OK);
+    EXPECT_EQ(VENTILATION_elastance_value(elastance, &error), 1.0f);
+    ASSERT_EQ(error, VENTILATION_ERROR_OK);
+    VENTILATION_elastance_delete(elastance, &error);
+    ASSERT_EQ(error, VENTILATION_ERROR_OK);
+
+    VENTILATION_Resistance * resistance = VENTILATION_lung_resistance(context, &error);
+    ASSERT_EQ(error, VENTILATION_ERROR_OK);
+    EXPECT_EQ(VENTILATION_resistance_value(resistance, &error), 1.0f);
+    ASSERT_EQ(error, VENTILATION_ERROR_OK);
+    VENTILATION_resistance_delete(resistance, &error);
+    ASSERT_EQ(error, VENTILATION_ERROR_OK);
+
+    VENTILATION_lung_delete(context, &error);
+    ASSERT_EQ(error, VENTILATION_ERROR_OK);
+}
+
 int
 main(int argc, char** argv) {
     testing::InitGoogleTest(&argc, argv);
