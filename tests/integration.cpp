@@ -75,21 +75,45 @@ TEST(Volume, Identity) {
 
 TEST(Lung, Identity) {
     VENTILATION_error error         = VENTILATION_ERROR_OK;
-    VENTILATION_Lung * context      = VENTILATION_lung_create(1.0f, 1.0f, &error);
-    ASSERT_EQ(error, VENTILATION_ERROR_OK);
-
-    VENTILATION_Elastance * elastance   = VENTILATION_lung_elastance(context, &error);
-    ASSERT_EQ(error, VENTILATION_ERROR_OK);
-    EXPECT_EQ(VENTILATION_elastance_value(elastance, &error), 1.0f);
-    ASSERT_EQ(error, VENTILATION_ERROR_OK);
-    VENTILATION_elastance_delete(elastance, &error);
+    VENTILATION_Lung * context      = VENTILATION_lung_create(2.0f, 3.0f, &error);
     ASSERT_EQ(error, VENTILATION_ERROR_OK);
 
     VENTILATION_Resistance * resistance = VENTILATION_lung_resistance(context, &error);
     ASSERT_EQ(error, VENTILATION_ERROR_OK);
-    EXPECT_EQ(VENTILATION_resistance_value(resistance, &error), 1.0f);
+    EXPECT_EQ(VENTILATION_resistance_value(resistance, &error), 2.0f);
     ASSERT_EQ(error, VENTILATION_ERROR_OK);
     VENTILATION_resistance_delete(resistance, &error);
+    ASSERT_EQ(error, VENTILATION_ERROR_OK);
+
+    VENTILATION_Elastance * elastance   = VENTILATION_lung_elastance(context, &error);
+    ASSERT_EQ(error, VENTILATION_ERROR_OK);
+    EXPECT_EQ(VENTILATION_elastance_value(elastance, &error), 3.0f);
+    ASSERT_EQ(error, VENTILATION_ERROR_OK);
+    VENTILATION_elastance_delete(elastance, &error);
+    ASSERT_EQ(error, VENTILATION_ERROR_OK);
+
+    VENTILATION_lung_delete(context, &error);
+    ASSERT_EQ(error, VENTILATION_ERROR_OK);
+}
+
+TEST(Lung, Forward) {
+    VENTILATION_error error         = VENTILATION_ERROR_OK;
+    VENTILATION_Lung * context      = VENTILATION_lung_create(2.0f, 3.0f, &error);
+    ASSERT_EQ(error, VENTILATION_ERROR_OK);
+
+    VENTILATION_Flow * flow     = VENTILATION_flow_create(3.0f, &error);
+    ASSERT_EQ(error, VENTILATION_ERROR_OK);
+    VENTILATION_Volume * volume = VENTILATION_volume_create(4.0f, &error);
+    ASSERT_EQ(error, VENTILATION_ERROR_OK);
+
+    VENTILATION_Pressure * pressure = VENTILATION_lung_forward(context, flow, volume, &error);
+    ASSERT_EQ(error, VENTILATION_ERROR_OK);
+    EXPECT_EQ(VENTILATION_pressure_value(pressure, &error), 18.0f);
+    ASSERT_EQ(error, VENTILATION_ERROR_OK);
+
+    VENTILATION_flow_delete(flow, &error);
+    ASSERT_EQ(error, VENTILATION_ERROR_OK);
+    VENTILATION_volume_delete(volume, &error);
     ASSERT_EQ(error, VENTILATION_ERROR_OK);
 
     VENTILATION_lung_delete(context, &error);

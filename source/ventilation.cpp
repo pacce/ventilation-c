@@ -1128,3 +1128,20 @@ VENTILATION_lung_elastance(struct VENTILATION_Lung * context, VENTILATION_error 
     }
     return e;
 }
+
+struct VENTILATION_Pressure *
+VENTILATION_lung_forward(
+        struct VENTILATION_Lung *       lung
+        , struct VENTILATION_Flow *     flow
+        , struct VENTILATION_Volume *   volume
+        , VENTILATION_error*            error
+        )
+{
+    struct VENTILATION_Pressure * p = nullptr;
+    if ((nullptr == lung) or (nullptr == flow) or (nullptr == volume)) {
+        *error = VENTILATION_ERROR_NULL;
+    } else {
+        p = new VENTILATION_Pressure(lung->value(flow->value, volume->value));
+    }
+    return p;
+}

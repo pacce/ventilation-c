@@ -494,6 +494,13 @@ VENTILATION_lung_resistance(struct VENTILATION_Lung*, VENTILATION_error*);
 struct VENTILATION_Elastance *
 VENTILATION_lung_elastance(struct VENTILATION_Lung*, VENTILATION_error*);
 
+struct VENTILATION_Pressure *
+VENTILATION_lung_forward(
+        struct VENTILATION_Lung*
+        , struct VENTILATION_Flow*
+        , struct VENTILATION_Volume*
+        , VENTILATION_error*);
+
 #ifdef __cplusplus
 }
 #endif
