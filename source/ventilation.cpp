@@ -50,7 +50,7 @@ struct VENTILATION_Volume {
 struct VENTILATION_Packet {
     ventilation::Packet<float> value;
 
-    VENTILATION_Packet(const float f, const float p, const float v) 
+    VENTILATION_Packet(const float f, const float p, const float v)
     {
         value.flow      = ventilation::Flow<float>(f);
         value.pressure  = ventilation::Pressure<float>(p);
@@ -70,6 +70,17 @@ struct VENTILATION_Lung {
 
     VENTILATION_Lung(const ventilation::Resistance<float>& r, const ventilation::Elastance<float>& e)
         : value(r, e)
+    {}
+};
+
+struct VENTILATION_Cycle {
+    ventilation::cycle::Cycle<float> value;
+
+    VENTILATION_Cycle(
+              const ventilation::frequency::Frequency<float>&   frequency
+            , const ventilation::ratio::Ratio<float>&           ratio
+            )
+        : value(frequency, ratio)
     {}
 };
 
@@ -1033,7 +1044,7 @@ VENTILATION_packet_create(
         , const float           pressure
         , const float           volume
         , VENTILATION_error*    error
-        ) 
+        )
 {
     *error = VENTILATION_ERROR_OK;
 
@@ -1144,4 +1155,23 @@ VENTILATION_lung_forward(
         p = new VENTILATION_Pressure(lung->value(flow->value, volume->value));
     }
     return p;
+}
+
+struct VENTILATION_Cycle *
+VENTILATION_cycle_create(float frequency, float inspiration, float expiration, VENTILATION_error * error) {
+    *error = VENTILATION_ERROR_OK;
+
+    ventilation::frequency::Frequency<float> f(frequency);
+    ventilation::ratio::Ratio<float> ratio(inspiration, expiration);
+    return new VENTILATION_Cycle(f, ratio);
+}
+
+void
+VENTILATION_cycle_delete(struct VENTILATION_Cycle * context, VENTILATION_error * error) {
+    if (nullptr == context) {
+        *error = VENTILATION_ERROR_NULL;
+    } else {
+        *error = VENTILATION_ERROR_OK;
+        delete context;
+    }
 }

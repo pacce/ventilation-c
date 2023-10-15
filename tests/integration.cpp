@@ -120,6 +120,15 @@ TEST(Lung, Forward) {
     ASSERT_EQ(error, VENTILATION_ERROR_OK);
 }
 
+TEST(Cycle, Identity) {
+    VENTILATION_error error         = VENTILATION_ERROR_OK;
+    VENTILATION_Cycle * context     = VENTILATION_cycle_create(1.0f, 1.0f, 1.0f, &error);
+    ASSERT_EQ(error, VENTILATION_ERROR_OK);
+
+    VENTILATION_cycle_delete(context, &error);
+    ASSERT_EQ(error, VENTILATION_ERROR_OK);
+}
+
 int
 main(int argc, char** argv) {
     testing::InitGoogleTest(&argc, argv);
