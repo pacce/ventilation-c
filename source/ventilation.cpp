@@ -73,6 +73,12 @@ struct VENTILATION_Lung {
     {}
 };
 
+struct VENTILATION_Frequency {
+    ventilation::frequency::Frequency<float> value;
+
+    VENTILATION_Frequency(float frequency) : value(frequency) {}
+};
+
 struct VENTILATION_Cycle {
     ventilation::cycle::Cycle<float> value;
 
@@ -1161,13 +1167,40 @@ VENTILATION_lung_forward(
     return p;
 }
 
+struct VENTILATION_Frequency *
+VENTILATION_frequency_hertz(float hertz, VENTILATION_error * error) {
+    *error = VENTILATION_ERROR_OK;
+    return new VENTILATION_Frequency(hertz);
+}
+
+struct VENTILATION_Frequency *
+VENTILATION_frequency_bpm(float bpm, VENTILATION_error * error) {
+    *error = VENTILATION_ERROR_OK;
+    return new VENTILATION_Frequency(bpm / 60.0f);
+}
+
+void
+VENTILATION_frequency_delete(struct VENTILATION_Frequency* context, VENTILATION_error * error) {
+    if (nullptr == context) {
+        *error = VENTILATION_ERROR_NULL;
+    } else {
+        *error = VENTILATION_ERROR_OK;
+        delete context;
+    }
+}
+
 struct VENTILATION_Cycle *
-VENTILATION_cycle_create(float frequency, float inspiration, float expiration, VENTILATION_error * error) {
+VENTILATION_cycle_create(
+          struct VENTILATION_Frequency *    frequency
+        , float                             inspiration
+        , float                             expiration
+        , VENTILATION_error *               error
+        ) 
+{
     *error = VENTILATION_ERROR_OK;
 
-    ventilation::frequency::Frequency<float> f(frequency);
     ventilation::ratio::Ratio<float> ratio(inspiration, expiration);
-    return new VENTILATION_Cycle(f, ratio);
+    return new VENTILATION_Cycle(frequency->value, ratio);
 }
 
 void

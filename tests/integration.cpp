@@ -120,9 +120,24 @@ TEST(Lung, Forward) {
     ASSERT_EQ(error, VENTILATION_ERROR_OK);
 }
 
-TEST(Cycle, Identity) {
+TEST(Frequency, Identity) {
     VENTILATION_error error         = VENTILATION_ERROR_OK;
-    VENTILATION_Cycle * context     = VENTILATION_cycle_create(1.0f, 1.0f, 1.0f, &error);
+    VENTILATION_Frequency * context = VENTILATION_frequency_hertz(1.0f, &error);
+    ASSERT_EQ(error, VENTILATION_ERROR_OK);
+
+    VENTILATION_frequency_delete(context, &error);
+    ASSERT_EQ(error, VENTILATION_ERROR_OK);
+}
+
+TEST(Cycle, Identity) {
+    VENTILATION_error error             = VENTILATION_ERROR_OK;
+    VENTILATION_Frequency * frequency   = VENTILATION_frequency_hertz(1.0f, &error);
+    ASSERT_EQ(error, VENTILATION_ERROR_OK);
+
+    VENTILATION_Cycle * context     = VENTILATION_cycle_create(frequency, 1.0f, 1.0f, &error);
+    ASSERT_EQ(error, VENTILATION_ERROR_OK);
+
+    VENTILATION_frequency_delete(frequency, &error);
     ASSERT_EQ(error, VENTILATION_ERROR_OK);
 
     VENTILATION_cycle_delete(context, &error);

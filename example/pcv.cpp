@@ -13,7 +13,10 @@ main(int, char**) {
     struct VENTILATION_Lung * lung              = VENTILATION_lung_create(ELASTANCE, RESISTANCE, &error);
     assert((error == VENTILATION_ERROR_OK));
 
-    struct VENTILATION_Cycle * cycle = VENTILATION_cycle_create(0.5f, 0.5f, 1.0f, &error);
+    struct VENTILATION_Frequency * frequency    = VENTILATION_frequency_bpm(30.0f, &error);
+    assert((error == VENTILATION_ERROR_OK));
+
+    struct VENTILATION_Cycle * cycle = VENTILATION_cycle_create(frequency, 0.5f, 1.0f, &error);
     assert((error == VENTILATION_ERROR_OK));
 
     struct VENTILATION_Ventilator * ventilator = VENTILATION_ventilator_pcv(cycle, &error);
