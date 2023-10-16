@@ -75,47 +75,57 @@ TEST(Volume, Identity) {
 
 TEST(Lung, Identity) {
     VENTILATION_error error         = VENTILATION_ERROR_OK;
-    VENTILATION_Lung * context      = VENTILATION_lung_create(2.0f, 3.0f, &error);
+
+    VENTILATION_Elastance * elastance   = VENTILATION_elastance_create(2.0f, &error);
+    VENTILATION_Resistance * resistance = VENTILATION_resistance_create(3.0f, &error);
     ASSERT_EQ(error, VENTILATION_ERROR_OK);
 
-    VENTILATION_Resistance * resistance = VENTILATION_lung_resistance(context, &error);
+    VENTILATION_Lung * context      = VENTILATION_lung_create(resistance, elastance, &error);
     ASSERT_EQ(error, VENTILATION_ERROR_OK);
-    EXPECT_EQ(VENTILATION_resistance_value(resistance, &error), 2.0f);
-    ASSERT_EQ(error, VENTILATION_ERROR_OK);
+
+    {
+        VENTILATION_Resistance * actual = VENTILATION_lung_resistance(context, &error);
+        ASSERT_EQ(error, VENTILATION_ERROR_OK);
+
+        EXPECT_TRUE(VENTILATION_resistance_eq(resistance, actual, &error));
+        VENTILATION_resistance_delete(actual, &error);
+    }
+    {
+        VENTILATION_Elastance * actual = VENTILATION_lung_elastance(context, &error);
+        ASSERT_EQ(error, VENTILATION_ERROR_OK);
+
+        EXPECT_TRUE(VENTILATION_elastance_eq(elastance, actual, &error));
+        VENTILATION_elastance_delete(actual, &error);
+    }
+
     VENTILATION_resistance_delete(resistance, &error);
-    ASSERT_EQ(error, VENTILATION_ERROR_OK);
-
-    VENTILATION_Elastance * elastance   = VENTILATION_lung_elastance(context, &error);
-    ASSERT_EQ(error, VENTILATION_ERROR_OK);
-    EXPECT_EQ(VENTILATION_elastance_value(elastance, &error), 3.0f);
-    ASSERT_EQ(error, VENTILATION_ERROR_OK);
     VENTILATION_elastance_delete(elastance, &error);
-    ASSERT_EQ(error, VENTILATION_ERROR_OK);
-
     VENTILATION_lung_delete(context, &error);
     ASSERT_EQ(error, VENTILATION_ERROR_OK);
 }
 
 TEST(Lung, Forward) {
-    VENTILATION_error error         = VENTILATION_ERROR_OK;
-    VENTILATION_Lung * context      = VENTILATION_lung_create(2.0f, 3.0f, &error);
+    VENTILATION_error error = VENTILATION_ERROR_OK;
+
+    VENTILATION_Elastance * elastance   = VENTILATION_elastance_create(2.0f, &error);
+    VENTILATION_Resistance * resistance = VENTILATION_resistance_create(3.0f, &error);
+    VENTILATION_Lung * context          = VENTILATION_lung_create(resistance, elastance, &error);
     ASSERT_EQ(error, VENTILATION_ERROR_OK);
 
     VENTILATION_Flow * flow     = VENTILATION_flow_create(3.0f, &error);
-    ASSERT_EQ(error, VENTILATION_ERROR_OK);
     VENTILATION_Volume * volume = VENTILATION_volume_create(4.0f, &error);
     ASSERT_EQ(error, VENTILATION_ERROR_OK);
 
     VENTILATION_Pressure * pressure = VENTILATION_lung_forward(context, flow, volume, &error);
-    ASSERT_EQ(error, VENTILATION_ERROR_OK);
-    EXPECT_EQ(VENTILATION_pressure_value(pressure, &error), 18.0f);
+    EXPECT_EQ(VENTILATION_pressure_value(pressure, &error), 17.0f);
     ASSERT_EQ(error, VENTILATION_ERROR_OK);
 
     VENTILATION_flow_delete(flow, &error);
-    ASSERT_EQ(error, VENTILATION_ERROR_OK);
     VENTILATION_volume_delete(volume, &error);
     ASSERT_EQ(error, VENTILATION_ERROR_OK);
 
+    VENTILATION_resistance_delete(resistance, &error);
+    VENTILATION_elastance_delete(elastance, &error);
     VENTILATION_lung_delete(context, &error);
     ASSERT_EQ(error, VENTILATION_ERROR_OK);
 }
@@ -132,14 +142,10 @@ TEST(Frequency, Identity) {
 TEST(Cycle, Identity) {
     VENTILATION_error error             = VENTILATION_ERROR_OK;
     VENTILATION_Frequency * frequency   = VENTILATION_frequency_hertz(1.0f, &error);
-    ASSERT_EQ(error, VENTILATION_ERROR_OK);
-
-    VENTILATION_Cycle * context     = VENTILATION_cycle_create(frequency, 1.0f, 1.0f, &error);
+    VENTILATION_Cycle * context         = VENTILATION_cycle_create(frequency, 1.0f, 1.0f, &error);
     ASSERT_EQ(error, VENTILATION_ERROR_OK);
 
     VENTILATION_frequency_delete(frequency, &error);
-    ASSERT_EQ(error, VENTILATION_ERROR_OK);
-
     VENTILATION_cycle_delete(context, &error);
     ASSERT_EQ(error, VENTILATION_ERROR_OK);
 }

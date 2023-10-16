@@ -487,7 +487,7 @@ struct VENTILATION_Volume *
 VENTILATION_packet_volume(struct VENTILATION_Packet*, VENTILATION_error*);
 
 struct VENTILATION_Lung *
-VENTILATION_lung_create(const float r, const float e, VENTILATION_error*);
+VENTILATION_lung_create(struct VENTILATION_Resistance *, struct VENTILATION_Elastance *, VENTILATION_error *);
 
 void
 VENTILATION_lung_delete(struct VENTILATION_Lung*, VENTILATION_error*);

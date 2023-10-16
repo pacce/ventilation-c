@@ -1109,10 +1109,15 @@ VENTILATION_packet_volume(struct VENTILATION_Packet * context, VENTILATION_error
 }
 
 struct VENTILATION_Lung *
-VENTILATION_lung_create(const float r, const float e, VENTILATION_error * error) {
+VENTILATION_lung_create(
+          struct VENTILATION_Resistance *   r
+        , struct VENTILATION_Elastance *    e
+        , VENTILATION_error *               error
+        )
+{
     *error = VENTILATION_ERROR_OK;
 
-    struct VENTILATION_Lung * context = new VENTILATION_Lung(r, e);
+    struct VENTILATION_Lung * context = new VENTILATION_Lung(r->value, e->value);
     return context;
 }
 
