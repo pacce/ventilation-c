@@ -19,5 +19,6 @@ ventilation_c_dep = declare_dependency(
   )
 
 if not meson.is_subproject()
+  subdir('example')
   subdir('tests')
 endif

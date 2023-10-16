@@ -30,6 +30,7 @@ struct VENTILATION_Packet;
 struct VENTILATION_Lung;
 
 struct VENTILATION_Cycle;
+struct VENTILATION_Ventilator;
 
 struct VENTILATION_Compliance *
 VENTILATION_compliance_create(const float, VENTILATION_error*);
@@ -508,6 +509,19 @@ VENTILATION_cycle_create(float, float, float, VENTILATION_error*);
 
 void
 VENTILATION_cycle_delete(struct VENTILATION_Cycle*, VENTILATION_error*);
+
+struct VENTILATION_Ventilator *
+VENTILATION_ventilator_pcv(struct VENTILATION_Cycle * cycle, VENTILATION_error*);
+
+struct VENTILATION_Packet *
+VENTILATION_ventilator_control(
+          struct VENTILATION_Ventilator *
+        , struct VENTILATION_Lung *
+        , VENTILATION_error *
+        );
+
+void
+VENTILATION_ventilator_delete(struct VENTILATION_Ventilator*, VENTILATION_error*);
 
 #ifdef __cplusplus
 }

@@ -84,6 +84,10 @@ struct VENTILATION_Cycle {
     {}
 };
 
+struct VENTILATION_Ventilator {
+    ventilation::Modes<float> mode;
+};
+
 struct VENTILATION_Compliance *
 VENTILATION_compliance_create(const float value, VENTILATION_error * error) {
     *error = VENTILATION_ERROR_OK;
@@ -1168,6 +1172,44 @@ VENTILATION_cycle_create(float frequency, float inspiration, float expiration, V
 
 void
 VENTILATION_cycle_delete(struct VENTILATION_Cycle * context, VENTILATION_error * error) {
+    if (nullptr == context) {
+        *error = VENTILATION_ERROR_NULL;
+    } else {
+        *error = VENTILATION_ERROR_OK;
+        delete context;
+    }
+}
+
+struct VENTILATION_Ventilator *
+VENTILATION_ventilator_pcv(struct VENTILATION_Cycle * cycle, VENTILATION_error * error) {
+    *error = VENTILATION_ERROR_OK;
+
+    ventilation::Modes<float> ventilator = ventilation::modes::PCV<float>(
+              ventilation::PEEP<float>(5.0)
+            , ventilation::pressure::Peak<float>(20.0)
+            , cycle->value
+            );
+    return new VENTILATION_Ventilator(ventilator);
+}
+
+struct VENTILATION_Packet *
+VENTILATION_ventilator_control(
+          struct VENTILATION_Ventilator *   context
+        , struct VENTILATION_Lung *         lung
+        , VENTILATION_error *               error
+        ) 
+{
+    using namespace std::chrono_literals;
+    std::chrono::duration<float> step = 100us;
+
+    ventilation::modes::visitor::Control<float> control{lung->value, step};
+    ventilation::Packet packet = std::visit(control, context->mode);
+
+    return new VENTILATION_Packet(packet);
+}
+
+void
+VENTILATION_ventilator_delete(struct VENTILATION_Ventilator * context, VENTILATION_error * error) {
     if (nullptr == context) {
         *error = VENTILATION_ERROR_NULL;
     } else {
