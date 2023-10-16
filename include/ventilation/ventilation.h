@@ -29,8 +29,9 @@ struct VENTILATION_Packet;
 
 struct VENTILATION_Lung;
 
-struct VENTILATION_Cycle;
 struct VENTILATION_Frequency;
+struct VENTILATION_Ratio;
+struct VENTILATION_Cycle;
 struct VENTILATION_Ventilator;
 
 struct VENTILATION_Compliance *
@@ -514,8 +515,14 @@ VENTILATION_frequency_bpm(float, VENTILATION_error*);
 void
 VENTILATION_frequency_delete(struct VENTILATION_Frequency*, VENTILATION_error*);
 
+struct VENTILATION_Ratio *
+VENTILATION_ratio_create(float, float, VENTILATION_error*);
+
+void
+VENTILATION_ratio_delete(struct VENTILATION_Ratio*, VENTILATION_error*);
+
 struct VENTILATION_Cycle *
-VENTILATION_cycle_create(struct VENTILATION_Frequency*, float, float, VENTILATION_error*);
+VENTILATION_cycle_create(struct VENTILATION_Frequency*, VENTILATION_Ratio*, VENTILATION_error*);
 
 void
 VENTILATION_cycle_delete(struct VENTILATION_Cycle*, VENTILATION_error*);

@@ -79,6 +79,12 @@ struct VENTILATION_Frequency {
     VENTILATION_Frequency(float frequency) : value(frequency) {}
 };
 
+struct VENTILATION_Ratio {
+    ventilation::ratio::Ratio<float> value;
+
+    VENTILATION_Ratio(float inspiration, float expiration) : value(inspiration, expiration) {}
+};
+
 struct VENTILATION_Cycle {
     ventilation::cycle::Cycle<float> value;
 
@@ -1194,18 +1200,32 @@ VENTILATION_frequency_delete(struct VENTILATION_Frequency* context, VENTILATION_
     }
 }
 
+struct VENTILATION_Ratio *
+VENTILATION_ratio_create(float inspiration, float expiration, VENTILATION_error * error) {
+    *error = VENTILATION_ERROR_OK;
+
+    return new VENTILATION_Ratio(inspiration, expiration);
+}
+
+void
+VENTILATION_ratio_delete(struct VENTILATION_Ratio * context, VENTILATION_error * error) {
+    if (nullptr == context) {
+        *error = VENTILATION_ERROR_NULL;
+    } else {
+        *error = VENTILATION_ERROR_OK;
+        delete context;
+    }
+}
+
 struct VENTILATION_Cycle *
 VENTILATION_cycle_create(
           struct VENTILATION_Frequency *    frequency
-        , float                             inspiration
-        , float                             expiration
+        , struct VENTILATION_Ratio *        ratio
         , VENTILATION_error *               error
         ) 
 {
     *error = VENTILATION_ERROR_OK;
-
-    ventilation::ratio::Ratio<float> ratio(inspiration, expiration);
-    return new VENTILATION_Cycle(frequency->value, ratio);
+    return new VENTILATION_Cycle(frequency->value, ratio->value);
 }
 
 void
