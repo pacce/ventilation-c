@@ -5,6 +5,7 @@ sources       = [
     'source/ventilation.cpp'
   , 'source/ventilation-compliance.cpp'
   , 'source/ventilation-elastance.cpp'
+  , 'source/ventilation-resistance.cpp'
   ]
 dependencies  = [dependency('ventilation')]
 
