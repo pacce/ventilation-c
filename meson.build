@@ -1,7 +1,10 @@
 project('ventilation-c', 'cpp', version : '0.1.0', default_options : ['warning_level=3', 'cpp_std=c++20'])
 
 includes      = include_directories('include')
-sources       = ['source/ventilation.cpp']
+sources       = [
+    'source/ventilation.cpp'
+  , 'source/ventilation-compliance.cpp'
+  ]
 dependencies  = [dependency('ventilation')]
 
 ventilation       = library(
