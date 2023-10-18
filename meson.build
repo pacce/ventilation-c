@@ -4,6 +4,7 @@ includes      = include_directories('include')
 sources       = [
     'source/ventilation.cpp'
   , 'source/ventilation-compliance.cpp'
+  , 'source/ventilation-elastance.cpp'
   ]
 dependencies  = [dependency('ventilation')]
 
