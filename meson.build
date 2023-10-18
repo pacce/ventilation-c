@@ -3,9 +3,12 @@ project('ventilation-c', 'cpp', version : '0.1.0', default_options : ['warning_l
 includes      = include_directories('include')
 sources       = [
     'source/ventilation.cpp'
+
   , 'source/ventilation-compliance.cpp'
   , 'source/ventilation-elastance.cpp'
   , 'source/ventilation-resistance.cpp'
+  
+  , 'source/ventilation-flow.cpp'
   ]
 dependencies  = [dependency('ventilation')]
 
