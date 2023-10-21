@@ -40,6 +40,8 @@ VENTILATION_ventilator_control(
         , VENTILATION_error *               error
         ) 
 {
+    *error = VENTILATION_ERROR_OK;
+
     using namespace std::chrono_literals;
     std::chrono::duration<float> step = 100us;
 
