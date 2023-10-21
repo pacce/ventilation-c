@@ -1,5 +1,6 @@
-#include "ventilation/ventilation.h"
 #include "ventilation-pressure.h"
+
+#include "ventilation/ventilation.h"
 #include "ventilation-utilities.h"
 
 struct VENTILATION_Pressure *

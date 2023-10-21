@@ -1,5 +1,8 @@
 #include "ventilation-elastance.h"
 
+#include "ventilation/ventilation.h"
+#include "ventilation-utilities.h"
+
 struct VENTILATION_Elastance *
 VENTILATION_elastance_create(const float value, VENTILATION_error * error) {
     *error = VENTILATION_ERROR_OK;

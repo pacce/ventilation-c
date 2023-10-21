@@ -1,5 +1,6 @@
-#include "ventilation/ventilation.h"
 #include "ventilation-compliance.h"
+
+#include "ventilation/ventilation.h"
 #include "ventilation-utilities.h"
 
 struct VENTILATION_Compliance *
