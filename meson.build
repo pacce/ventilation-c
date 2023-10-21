@@ -11,8 +11,9 @@ sources       = [
   , 'source/ventilation-flow.cpp'
   , 'source/ventilation-pressure.cpp'
   , 'source/ventilation-volume.cpp'
-
   , 'source/ventilation-packet.cpp'
+
+  , 'source/ventilation-lung.cpp'
   ]
 dependencies  = [dependency('ventilation')]
 
