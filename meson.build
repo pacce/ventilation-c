@@ -14,6 +14,7 @@ sources       = [
   , 'source/ventilation-packet.cpp'
 
   , 'source/ventilation-lung.cpp'
+  , 'source/ventilation-cycle.cpp'
   ]
 dependencies  = [dependency('ventilation')]
 
