@@ -25,6 +25,7 @@ struct VENTILATION_Flow;
 struct VENTILATION_Volume;
 struct VENTILATION_Pressure;
 struct VENTILATION_PEEP;
+struct VENTILATION_Pressure_Peak;
 
 struct VENTILATION_Packet;
 
@@ -473,6 +474,79 @@ VENTILATION_peep_le(
         , VENTILATION_error*
         );
 
+struct VENTILATION_Pressure_Peak *
+VENTILATION_pressure_peak_create(const float, VENTILATION_error*);
+
+void
+VENTILATION_pressure_peak_delete(struct VENTILATION_Pressure_Peak*, VENTILATION_error*);
+
+float
+VENTILATION_pressure_peak_value(const struct VENTILATION_Pressure_Peak*, VENTILATION_error*);
+
+struct VENTILATION_Pressure_Peak *
+VENTILATION_pressure_peak_add(
+          const struct VENTILATION_Pressure_Peak*
+        , const struct VENTILATION_Pressure_Peak*
+        , VENTILATION_error*
+        );
+
+struct VENTILATION_Pressure_Peak *
+VENTILATION_pressure_peak_sub(
+          const struct VENTILATION_Pressure_Peak*
+        , const struct VENTILATION_Pressure_Peak*
+        , VENTILATION_error*
+        );
+
+struct VENTILATION_Pressure_Peak *
+VENTILATION_pressure_peak_mul(
+          const struct VENTILATION_Pressure_Peak*
+        , const struct VENTILATION_Pressure_Peak*
+        , VENTILATION_error*
+        );
+
+
+VENTILATION_bool
+VENTILATION_pressure_peak_eq(
+          const struct VENTILATION_Pressure_Peak*
+        , const struct VENTILATION_Pressure_Peak*
+        , VENTILATION_error*
+        );
+
+VENTILATION_bool
+VENTILATION_pressure_peak_neq(
+          const struct VENTILATION_Pressure_Peak*
+        , const struct VENTILATION_Pressure_Peak*
+        , VENTILATION_error*
+        );
+
+VENTILATION_bool
+VENTILATION_pressure_peak_gt(
+          const struct VENTILATION_Pressure_Peak*
+        , const struct VENTILATION_Pressure_Peak*
+        , VENTILATION_error*
+        );
+
+VENTILATION_bool
+VENTILATION_pressure_peak_ge(
+          const struct VENTILATION_Pressure_Peak*
+        , const struct VENTILATION_Pressure_Peak*
+        , VENTILATION_error*
+        );
+
+VENTILATION_bool
+VENTILATION_pressure_peak_lt(
+          const struct VENTILATION_Pressure_Peak*
+        , const struct VENTILATION_Pressure_Peak*
+        , VENTILATION_error*
+        );
+
+VENTILATION_bool
+VENTILATION_pressure_peak_le(
+          const struct VENTILATION_Pressure_Peak*
+        , const struct VENTILATION_Pressure_Peak*
+        , VENTILATION_error*
+        );
+
 struct VENTILATION_Volume *
 VENTILATION_volume_create(const float, VENTILATION_error*);
 
@@ -602,7 +676,12 @@ void
 VENTILATION_cycle_delete(struct VENTILATION_Cycle*, VENTILATION_error*);
 
 struct VENTILATION_Ventilator *
-VENTILATION_ventilator_pcv(struct VENTILATION_Cycle * cycle, VENTILATION_error*);
+VENTILATION_ventilator_pcv(
+          struct VENTILATION_Cycle*
+        , struct VENTILATION_PEEP*
+        , struct VENTILATION_Pressure_Peak*
+        , VENTILATION_error*
+        );
 
 struct VENTILATION_Packet *
 VENTILATION_ventilator_control(

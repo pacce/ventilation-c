@@ -22,12 +22,18 @@ struct VENTILATION_Ventilator {
 };
 
 struct VENTILATION_Ventilator *
-VENTILATION_ventilator_pcv(struct VENTILATION_Cycle * cycle, VENTILATION_error * error) {
+VENTILATION_ventilator_pcv(
+          struct VENTILATION_Cycle *            cycle
+        , struct VENTILATION_PEEP *             peep
+        , struct VENTILATION_Pressure_Peak *    peak
+        , VENTILATION_error *                   error
+        ) 
+{
     *error = VENTILATION_ERROR_OK;
 
     ventilation::Modes<float> ventilator = ventilation::modes::PCV<float>(
-              ventilation::PEEP<float>(5.0)
-            , ventilation::pressure::Peak<float>(20.0)
+              peep->value
+            , peak->value
             , cycle->value
             );
     return new VENTILATION_Ventilator(ventilator);
