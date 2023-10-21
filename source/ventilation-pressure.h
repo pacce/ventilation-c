@@ -11,4 +11,12 @@ struct VENTILATION_Pressure {
     VENTILATION_Pressure(const ventilation::Pressure<float>& v) : value(v) {}
 };
 
+struct VENTILATION_PEEP {
+    ventilation::PEEP<float> value;
+
+    VENTILATION_PEEP(const float v) : value(v) {}
+    VENTILATION_PEEP(const ventilation::PEEP<float>& v) : value(v) {}
+    VENTILATION_PEEP(const ventilation::Pressure<float>& v) : value(v) {}
+};
+
 #endif // VENTILATION_PRESSURE_H__

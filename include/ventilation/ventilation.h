@@ -22,8 +22,9 @@ struct VENTILATION_Elastance;
 struct VENTILATION_Resistance;
 
 struct VENTILATION_Flow;
-struct VENTILATION_Pressure;
 struct VENTILATION_Volume;
+struct VENTILATION_Pressure;
+struct VENTILATION_PEEP;
 
 struct VENTILATION_Packet;
 
@@ -396,6 +397,79 @@ VENTILATION_bool
 VENTILATION_pressure_le(
           const struct VENTILATION_Pressure*
         , const struct VENTILATION_Pressure*
+        , VENTILATION_error*
+        );
+
+struct VENTILATION_PEEP *
+VENTILATION_peep_create(const float, VENTILATION_error*);
+
+void
+VENTILATION_peep_delete(struct VENTILATION_PEEP*, VENTILATION_error*);
+
+float
+VENTILATION_peep_value(const struct VENTILATION_PEEP*, VENTILATION_error*);
+
+struct VENTILATION_PEEP *
+VENTILATION_peep_add(
+          const struct VENTILATION_PEEP*
+        , const struct VENTILATION_PEEP*
+        , VENTILATION_error*
+        );
+
+struct VENTILATION_PEEP *
+VENTILATION_peep_sub(
+          const struct VENTILATION_PEEP*
+        , const struct VENTILATION_PEEP*
+        , VENTILATION_error*
+        );
+
+struct VENTILATION_PEEP *
+VENTILATION_peep_mul(
+          const struct VENTILATION_PEEP*
+        , const struct VENTILATION_PEEP*
+        , VENTILATION_error*
+        );
+
+
+VENTILATION_bool
+VENTILATION_peep_eq(
+          const struct VENTILATION_PEEP*
+        , const struct VENTILATION_PEEP*
+        , VENTILATION_error*
+        );
+
+VENTILATION_bool
+VENTILATION_peep_neq(
+          const struct VENTILATION_PEEP*
+        , const struct VENTILATION_PEEP*
+        , VENTILATION_error*
+        );
+
+VENTILATION_bool
+VENTILATION_peep_gt(
+          const struct VENTILATION_PEEP*
+        , const struct VENTILATION_PEEP*
+        , VENTILATION_error*
+        );
+
+VENTILATION_bool
+VENTILATION_peep_ge(
+          const struct VENTILATION_PEEP*
+        , const struct VENTILATION_PEEP*
+        , VENTILATION_error*
+        );
+
+VENTILATION_bool
+VENTILATION_peep_lt(
+          const struct VENTILATION_PEEP*
+        , const struct VENTILATION_PEEP*
+        , VENTILATION_error*
+        );
+
+VENTILATION_bool
+VENTILATION_peep_le(
+          const struct VENTILATION_PEEP*
+        , const struct VENTILATION_PEEP*
         , VENTILATION_error*
         );
 
