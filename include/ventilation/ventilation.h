@@ -652,9 +652,9 @@ VENTILATION_lung_elastance(const struct VENTILATION_Lung*, VENTILATION_error*);
 
 struct VENTILATION_Pressure *
 VENTILATION_lung_forward(
-        struct VENTILATION_Lung*
-        , struct VENTILATION_Flow*
-        , struct VENTILATION_Volume*
+          const struct VENTILATION_Lung*
+        , const struct VENTILATION_Flow*
+        , const struct VENTILATION_Volume*
         , VENTILATION_error*);
 
 struct VENTILATION_Frequency *

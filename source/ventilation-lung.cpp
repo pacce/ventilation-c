@@ -60,10 +60,10 @@ VENTILATION_lung_elastance(const struct VENTILATION_Lung * context, VENTILATION_
 
 struct VENTILATION_Pressure *
 VENTILATION_lung_forward(
-        struct VENTILATION_Lung *       lung
-        , struct VENTILATION_Flow *     flow
-        , struct VENTILATION_Volume *   volume
-        , VENTILATION_error*            error
+          const struct VENTILATION_Lung *   lung
+        , const struct VENTILATION_Flow *   flow
+        , const struct VENTILATION_Volume * volume
+        , VENTILATION_error*                error
         )
 {
     struct VENTILATION_Pressure * p = nullptr;
