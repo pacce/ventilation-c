@@ -33,7 +33,7 @@ VENTILATION_packet_delete(struct VENTILATION_Packet * context, VENTILATION_error
 }
 
 struct VENTILATION_Pressure *
-VENTILATION_packet_pressure(struct VENTILATION_Packet * context, VENTILATION_error * error) {
+VENTILATION_packet_pressure(const struct VENTILATION_Packet * context, VENTILATION_error * error) {
     VENTILATION_Pressure * p = nullptr;
     if (nullptr == context) {
         *error = VENTILATION_ERROR_NULL;
@@ -45,7 +45,7 @@ VENTILATION_packet_pressure(struct VENTILATION_Packet * context, VENTILATION_err
 }
 
 struct VENTILATION_Flow *
-VENTILATION_packet_flow(struct VENTILATION_Packet * context, VENTILATION_error * error) {
+VENTILATION_packet_flow(const struct VENTILATION_Packet * context, VENTILATION_error * error) {
     VENTILATION_Flow * f = nullptr;
     if (nullptr == context) {
         *error = VENTILATION_ERROR_NULL;
@@ -57,7 +57,7 @@ VENTILATION_packet_flow(struct VENTILATION_Packet * context, VENTILATION_error *
 }
 
 struct VENTILATION_Volume *
-VENTILATION_packet_volume(struct VENTILATION_Packet * context, VENTILATION_error * error) {
+VENTILATION_packet_volume(const struct VENTILATION_Packet * context, VENTILATION_error * error) {
     VENTILATION_Volume * v = nullptr;
     if (nullptr == context) {
         *error = VENTILATION_ERROR_NULL;
