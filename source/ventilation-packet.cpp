@@ -68,3 +68,27 @@ VENTILATION_packet_volume(struct VENTILATION_Packet * context, VENTILATION_error
     return v;
 }
 
+
+int
+VENTILATION_packet_string(
+          const struct VENTILATION_Packet * packet
+        , char *                            buffer
+        , int                               size
+        , VENTILATION_error *               error
+        )
+{
+    int buf_size = 0;
+    if (nullptr == packet) {
+        * error = VENTILATION_ERROR_NULL;
+    } else {
+        buf_size = std::snprintf(
+                buffer
+                , size
+                , "%f, %f, %f"
+                , static_cast<float>(packet->value.pressure)
+                , static_cast<float>(packet->value.flow)
+                , static_cast<float>(packet->value.volume)
+                );
+    }
+    return buf_size;
+}

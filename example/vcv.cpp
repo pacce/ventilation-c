@@ -7,6 +7,14 @@
 const float ELASTANCE   = 1000.0f / 30.0f;
 const float RESISTANCE  = 50.0f;
 
+char *
+format(const VENTILATION_Packet * packet, VENTILATION_error * error) {
+    int size        = VENTILATION_packet_string(packet, nullptr, 0, error);
+    char * buffer   = new char[size + 1];
+    VENTILATION_packet_string(packet, buffer, size, error);
+    return buffer;
+}
+
 int
 main(int, char**) {
     VENTILATION_error error = VENTILATION_ERROR_OK;
@@ -30,19 +38,10 @@ main(int, char**) {
         struct VENTILATION_Packet * packet = VENTILATION_ventilator_control(ventilator, lung, &error);
         assert((error == VENTILATION_ERROR_OK));
 
-        VENTILATION_Pressure * p    = VENTILATION_packet_pressure(packet, &error);
-        VENTILATION_Flow * f        = VENTILATION_packet_flow(packet, &error);
-        VENTILATION_Volume * v      = VENTILATION_packet_volume(packet, &error);
-
-        std::printf("%f, %f, %f\n"
-                , VENTILATION_pressure_value(p, &error)
-                , VENTILATION_flow_value(f, &error)
-                , VENTILATION_volume_value(v, &error)
-                );
-
-        VENTILATION_pressure_delete(p, &error);
-        VENTILATION_flow_delete(f, &error);
-        VENTILATION_volume_delete(v, &error);
+        char * buffer = format(packet, &error);
+        printf("%s\n", buffer);
+        assert((error == VENTILATION_ERROR_OK));
+        delete[] buffer;
 
         VENTILATION_packet_delete(packet, &error);
         assert((error == VENTILATION_ERROR_OK));

@@ -635,6 +635,9 @@ VENTILATION_packet_flow(struct VENTILATION_Packet*, VENTILATION_error*);
 struct VENTILATION_Volume *
 VENTILATION_packet_volume(struct VENTILATION_Packet*, VENTILATION_error*);
 
+int
+VENTILATION_packet_string(const struct VENTILATION_Packet*, char *, int, VENTILATION_error*);
+
 struct VENTILATION_Lung *
 VENTILATION_lung_create(struct VENTILATION_Resistance *, struct VENTILATION_Elastance *, VENTILATION_error *);
 
