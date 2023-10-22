@@ -627,13 +627,13 @@ void
 VENTILATION_packet_delete(struct VENTILATION_Packet*, VENTILATION_error*);
 
 struct VENTILATION_Pressure *
-VENTILATION_packet_pressure(struct VENTILATION_Packet*, VENTILATION_error*);
+VENTILATION_packet_pressure(const struct VENTILATION_Packet*, VENTILATION_error*);
 
 struct VENTILATION_Flow *
-VENTILATION_packet_flow(struct VENTILATION_Packet*, VENTILATION_error*);
+VENTILATION_packet_flow(const struct VENTILATION_Packet*, VENTILATION_error*);
 
 struct VENTILATION_Volume *
-VENTILATION_packet_volume(struct VENTILATION_Packet*, VENTILATION_error*);
+VENTILATION_packet_volume(const struct VENTILATION_Packet*, VENTILATION_error*);
 
 int
 VENTILATION_packet_string(const struct VENTILATION_Packet*, char *, int, VENTILATION_error*);
@@ -645,10 +645,10 @@ void
 VENTILATION_lung_delete(struct VENTILATION_Lung*, VENTILATION_error*);
 
 struct VENTILATION_Resistance *
-VENTILATION_lung_resistance(struct VENTILATION_Lung*, VENTILATION_error*);
+VENTILATION_lung_resistance(const struct VENTILATION_Lung*, VENTILATION_error*);
 
 struct VENTILATION_Elastance *
-VENTILATION_lung_elastance(struct VENTILATION_Lung*, VENTILATION_error*);
+VENTILATION_lung_elastance(const struct VENTILATION_Lung*, VENTILATION_error*);
 
 struct VENTILATION_Pressure *
 VENTILATION_lung_forward(
@@ -673,24 +673,24 @@ void
 VENTILATION_ratio_delete(struct VENTILATION_Ratio*, VENTILATION_error*);
 
 struct VENTILATION_Cycle *
-VENTILATION_cycle_create(struct VENTILATION_Frequency*, VENTILATION_Ratio*, VENTILATION_error*);
+VENTILATION_cycle_create(const struct VENTILATION_Frequency*, const struct VENTILATION_Ratio*, VENTILATION_error*);
 
 void
 VENTILATION_cycle_delete(struct VENTILATION_Cycle*, VENTILATION_error*);
 
 struct VENTILATION_Ventilator *
 VENTILATION_ventilator_pcv(
-          struct VENTILATION_Cycle*
-        , struct VENTILATION_PEEP*
-        , struct VENTILATION_Pressure_Peak*
+          const struct VENTILATION_Cycle*
+        , const struct VENTILATION_PEEP*
+        , const struct VENTILATION_Pressure_Peak*
         , VENTILATION_error*
         );
 
 struct VENTILATION_Ventilator *
 VENTILATION_ventilator_vcv(
-          struct VENTILATION_Cycle*
-        , struct VENTILATION_PEEP*
-        , struct VENTILATION_Flow*
+          const struct VENTILATION_Cycle*
+        , const struct VENTILATION_PEEP*
+        , const struct VENTILATION_Flow*
         , VENTILATION_error*
         );
 

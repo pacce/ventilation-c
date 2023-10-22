@@ -35,7 +35,7 @@ VENTILATION_lung_delete(struct VENTILATION_Lung * context, VENTILATION_error * e
 }
 
 struct VENTILATION_Resistance *
-VENTILATION_lung_resistance(struct VENTILATION_Lung * context, VENTILATION_error * error) {
+VENTILATION_lung_resistance(const struct VENTILATION_Lung * context, VENTILATION_error * error) {
     VENTILATION_Resistance * r = nullptr;
     if (nullptr == context) {
         *error = VENTILATION_ERROR_NULL;
@@ -47,7 +47,7 @@ VENTILATION_lung_resistance(struct VENTILATION_Lung * context, VENTILATION_error
 }
 
 struct VENTILATION_Elastance *
-VENTILATION_lung_elastance(struct VENTILATION_Lung * context, VENTILATION_error * error) {
+VENTILATION_lung_elastance(const struct VENTILATION_Lung * context, VENTILATION_error * error) {
     VENTILATION_Elastance * e = nullptr;
     if (nullptr == context) {
         *error = VENTILATION_ERROR_NULL;

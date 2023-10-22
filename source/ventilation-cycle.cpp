@@ -44,9 +44,9 @@ VENTILATION_ratio_delete(struct VENTILATION_Ratio * context, VENTILATION_error *
 
 struct VENTILATION_Cycle *
 VENTILATION_cycle_create(
-          struct VENTILATION_Frequency *    frequency
-        , struct VENTILATION_Ratio *        ratio
-        , VENTILATION_error *               error
+          const struct VENTILATION_Frequency *  frequency
+        , const struct VENTILATION_Ratio *      ratio
+        , VENTILATION_error *                   error
         ) 
 {
     *error = VENTILATION_ERROR_OK;

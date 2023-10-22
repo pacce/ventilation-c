@@ -23,10 +23,10 @@ struct VENTILATION_Ventilator {
 
 struct VENTILATION_Ventilator *
 VENTILATION_ventilator_pcv(
-          struct VENTILATION_Cycle *            cycle
-        , struct VENTILATION_PEEP *             peep
-        , struct VENTILATION_Pressure_Peak *    peak
-        , VENTILATION_error *                   error
+          const struct VENTILATION_Cycle *          cycle
+        , const struct VENTILATION_PEEP *           peep
+        , const struct VENTILATION_Pressure_Peak *  peak
+        , VENTILATION_error *                       error
         ) 
 {
     *error = VENTILATION_ERROR_OK;
@@ -41,10 +41,10 @@ VENTILATION_ventilator_pcv(
 
 struct VENTILATION_Ventilator *
 VENTILATION_ventilator_vcv(
-          struct VENTILATION_Cycle *    cycle
-        , struct VENTILATION_PEEP *     peep
-        , struct VENTILATION_Flow *     flow
-        , VENTILATION_error *           error
+          const struct VENTILATION_Cycle *  cycle
+        , const struct VENTILATION_PEEP *   peep
+        , const struct VENTILATION_Flow *   flow
+        , VENTILATION_error *               error
         )
 {
     *error = VENTILATION_ERROR_OK;
