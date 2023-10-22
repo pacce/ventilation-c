@@ -39,6 +39,24 @@ VENTILATION_ventilator_pcv(
     return new VENTILATION_Ventilator(ventilator);
 }
 
+struct VENTILATION_Ventilator *
+VENTILATION_ventilator_vcv(
+          struct VENTILATION_Cycle *    cycle
+        , struct VENTILATION_PEEP *     peep
+        , struct VENTILATION_Flow *     flow
+        , VENTILATION_error *           error
+        )
+{
+    *error = VENTILATION_ERROR_OK;
+
+    ventilation::Modes<float> ventilator = ventilation::modes::VCV<float>(
+              peep->value
+            , flow->value
+            , cycle->value
+            );
+    return new VENTILATION_Ventilator(ventilator);
+}
+
 struct VENTILATION_Packet *
 VENTILATION_ventilator_control(
           struct VENTILATION_Ventilator *   context

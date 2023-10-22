@@ -683,6 +683,14 @@ VENTILATION_ventilator_pcv(
         , VENTILATION_error*
         );
 
+struct VENTILATION_Ventilator *
+VENTILATION_ventilator_vcv(
+          struct VENTILATION_Cycle*
+        , struct VENTILATION_PEEP*
+        , struct VENTILATION_Flow*
+        , VENTILATION_error*
+        );
+
 struct VENTILATION_Packet *
 VENTILATION_ventilator_control(
           struct VENTILATION_Ventilator *
