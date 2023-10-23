@@ -17,23 +17,79 @@ typedef int32_t VENTILATION_error;
 #define VENTILATION_ERROR_GENERIC  -1
 #define VENTILATION_ERROR_NULL     -2
 
+/*
+ * VENTILATION_Compliance is an opaque structure that handles Compliance values.
+ * VENTILATION_Elastance is an opaque structure that handles Elastance values.
+ * VENTILATION_Resistance is an opaque structure that handles Resistance values.
+ *
+ * Compliance values are expressed in L.(cmH2O^-1)
+ * Elastance values are expressed in cmH2O.L^-1
+ * Resistance values are expressed in cmH2O.s.L^-1
+ */
 struct VENTILATION_Compliance;
 struct VENTILATION_Elastance;
 struct VENTILATION_Resistance;
 
+/*
+ * VENTILATION_Flow is an opaque structure that handles Flow values.
+ * VENTILATION_Volume is an opaque structure that handles Volume values.
+ * VENTILATION_Pressure is an opaque structure that handles Pressure values.
+ *
+ * Flow values are expressed in L/s
+ * Volume values are expressed in L
+ * Pressure values are expressed in cmH2O
+ *
+ * Ventilation_PEEP is an opaque structure that handles Positive End Expiratory Pressure
+ * VENTILATION_Pressure_Peak is an opaque that handles the Peak Pressure
+ *
+ * Both parameters are expressed in cmH2O
+ */
 struct VENTILATION_Flow;
 struct VENTILATION_Volume;
 struct VENTILATION_Pressure;
 struct VENTILATION_PEEP;
 struct VENTILATION_Pressure_Peak;
 
+/*
+ * VENTILATION_Packet is an opaque structure that handles ventilation::Packet
+ * Packets store Pressure, Flow and Volume
+ */
 struct VENTILATION_Packet;
-
+/*
+ * VENTILATION_Lung is an opaque structure that handles ventilation::forward::Lung
+ * Lung is a linear forward model of the lung mechanics, under the hood it implements the
+ * movement equation, as follows:
+ *
+ * P = E * V + R * F + PEEP
+ *
+ * Where:
+ *  - E     : Single compartment lung elastance
+ *  - R     : Single compartment lung resistance
+ *  - P     : Airway pressure
+ *  - F     : Flow
+ *  - V     : Volume (obtained via integration)
+ *  - PEEP  : Positive End Expiratory Pressure
+ */
 struct VENTILATION_Lung;
 
+/*
+ * VENTILATION_Frequency is an opaque structure that handles the ventilator excitation frequency
+ * VENTILATION_Ratio is an opaque structure that stores the inspiratory and expiratory ratio
+ * VENTILATION_Cycle is an opaque structure that stores the ventilation setup in cycle-wise fashion
+ *
+ * Frequency is stored in hertz, that is, the number of respiratory cycles over one second
+ * Ratio is the i:e ratio, that is, a 1:3 ratio, for instance, designates that 25% of the cycle
+ * is inspiration while the remaining 75% is expiration.
+ */
 struct VENTILATION_Frequency;
 struct VENTILATION_Ratio;
 struct VENTILATION_Cycle;
+/*
+ * VENTILATION_Ventilator is an opaque structure that stores the ventilation mode and control.
+ * It stores two types of ventilation modes:
+ *  - Volume Controlled Ventilation (VCV)
+ *  - Pressure Controlled Ventilation (PCV)
+ */
 struct VENTILATION_Ventilator;
 
 struct VENTILATION_Compliance *
