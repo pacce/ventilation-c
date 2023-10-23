@@ -92,37 +92,65 @@ struct VENTILATION_Cycle;
  */
 struct VENTILATION_Ventilator;
 
+/*
+ * Given a float, converts it to the internal opaque struct representation
+ */
 struct VENTILATION_Compliance *
 VENTILATION_compliance_create(const float, VENTILATION_error*);
-
+/*
+ * Deallocates the opaque struct allocated using VENTILATION_compliance_create
+ * Notice that if a null pointer is passed, error will be set to VENTILATION_ERROR_NULL
+ */
 void
 VENTILATION_compliance_delete(struct VENTILATION_Compliance*, VENTILATION_error*);
-
+/*
+ * Retrives the float stored in the opaque struct
+ * Notice that if a null pointer is passed, error will be set to VENTILATION_ERROR_NULL
+ */
 float
 VENTILATION_compliance_value(const struct VENTILATION_Compliance*, VENTILATION_error*);
-
+/*
+ * Adds two compliance values: lhs and rhs
+ * Notice that if either lhs or rhs are null, error will be set to VENTILATION_ERROR_NULL
+ * and the return will be a null pointer
+ */
 struct VENTILATION_Compliance *
 VENTILATION_compliance_add(
           const struct VENTILATION_Compliance*
         , const struct VENTILATION_Compliance*
         , VENTILATION_error*
         );
-
+/*
+ * Subtract two compliance values: lhs and rhs
+ * Notice that if either lhs or rhs are null, error will be set to VENTILATION_ERROR_NULL
+ * and the return will be a null pointer
+ */
 struct VENTILATION_Compliance *
 VENTILATION_compliance_sub(
           const struct VENTILATION_Compliance*
         , const struct VENTILATION_Compliance*
         , VENTILATION_error*
         );
-
+/*
+ * Multiplies two compliance values: lhs and rhs
+ * Notice that if either lhs or rhs are null, error will be set to VENTILATION_ERROR_NULL
+ * and the return will be a null pointer
+ */
 struct VENTILATION_Compliance *
 VENTILATION_compliance_mul(
           const struct VENTILATION_Compliance*
         , const struct VENTILATION_Compliance*
         , VENTILATION_error*
         );
-
-
+/*
+ * Checks whether two compliance values, lhs and rhs, are equal
+ * Notice that if either lhs or rhs are null, error will be set to VENTILATION_ERROR_NULL
+ * and the return will be false
+ *
+ * The precision is 0.1, that is:
+ * 10.00 and 10.09 are considered equal
+ * 10.00 and 10.10 are considered unequal
+ */
 VENTILATION_bool
 VENTILATION_compliance_eq(
           const struct VENTILATION_Compliance*
@@ -136,28 +164,44 @@ VENTILATION_compliance_neq(
         , const struct VENTILATION_Compliance*
         , VENTILATION_error*
         );
-
+/*
+ * The precision is 0.1, that is:
+ * 10.10 is considered greater than 10.00,
+ * while 10.00 and 10.09 are considered equal
+ */
 VENTILATION_bool
 VENTILATION_compliance_gt(
           const struct VENTILATION_Compliance*
         , const struct VENTILATION_Compliance*
         , VENTILATION_error*
         );
-
+/*
+ * The precision is 0.1, that is:
+ * 10.10 is considered greater than 10.00,
+ * while 10.00 and 10.09 are considered equal
+ */
 VENTILATION_bool
 VENTILATION_compliance_ge(
           const struct VENTILATION_Compliance*
         , const struct VENTILATION_Compliance*
         , VENTILATION_error*
         );
-
+/*
+ * The precision is 0.1, that is:
+ * 10.00 is considered smaller than 10.10,
+ * while 10.00 and 10.09 are considered equal
+ */
 VENTILATION_bool
 VENTILATION_compliance_lt(
           const struct VENTILATION_Compliance*
         , const struct VENTILATION_Compliance*
         , VENTILATION_error*
         );
-
+/*
+ * The precision is 0.1, that is:
+ * 10.00 is considered smaller than 10.10,
+ * while 10.00 and 10.09 are considered equal
+ */
 VENTILATION_bool
 VENTILATION_compliance_le(
           const struct VENTILATION_Compliance*
