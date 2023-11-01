@@ -104,6 +104,47 @@ TEST(Lung, Identity) {
     ASSERT_EQ(error, VENTILATION_ERROR_OK);
 }
 
+TEST(Lung, Setter) {
+    VENTILATION_error error         = VENTILATION_ERROR_OK;
+
+    VENTILATION_Elastance * elastance   = VENTILATION_elastance_create(3.0f, &error);
+    VENTILATION_Resistance * resistance = VENTILATION_resistance_create(3.0f, &error);
+    ASSERT_EQ(error, VENTILATION_ERROR_OK);
+
+    VENTILATION_Lung * context      = VENTILATION_lung_create(resistance, elastance, &error);
+    ASSERT_EQ(error, VENTILATION_ERROR_OK);
+
+    {
+        VENTILATION_Resistance * change = VENTILATION_resistance_create(4.0f, &error);
+        VENTILATION_lung_set_resistance(context, change, &error);
+        VENTILATION_Resistance * actual = VENTILATION_lung_resistance(context, &error);
+        ASSERT_EQ(error, VENTILATION_ERROR_OK);
+
+        EXPECT_TRUE(VENTILATION_resistance_neq(resistance, actual, &error));
+        EXPECT_TRUE(VENTILATION_resistance_eq(change, actual, &error));
+
+        VENTILATION_resistance_delete(actual, &error);
+        VENTILATION_resistance_delete(change, &error);
+    }
+    {
+        VENTILATION_Elastance * change = VENTILATION_elastance_create(4.0f, &error);
+        VENTILATION_lung_set_elastance(context, change, &error);
+        VENTILATION_Elastance * actual = VENTILATION_lung_elastance(context, &error);
+        ASSERT_EQ(error, VENTILATION_ERROR_OK);
+
+        EXPECT_TRUE(VENTILATION_elastance_neq(elastance, actual, &error));
+        EXPECT_TRUE(VENTILATION_elastance_eq(change, actual, &error));
+
+        VENTILATION_elastance_delete(actual, &error);
+        VENTILATION_elastance_delete(change, &error);
+    }
+
+    VENTILATION_resistance_delete(resistance, &error);
+    VENTILATION_elastance_delete(elastance, &error);
+    VENTILATION_lung_delete(context, &error);
+    ASSERT_EQ(error, VENTILATION_ERROR_OK);
+}
+
 TEST(Lung, Forward) {
     VENTILATION_error error = VENTILATION_ERROR_OK;
 

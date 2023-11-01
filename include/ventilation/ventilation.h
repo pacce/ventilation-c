@@ -738,18 +738,50 @@ VENTILATION_packet_volume(const struct VENTILATION_Packet*, VENTILATION_error*);
 int
 VENTILATION_packet_string(const struct VENTILATION_Packet*, char *, int, VENTILATION_error*);
 
+/*
+ * Given a pair of Resistance and Elastance, describing the lung mechanics
+ * this function allocates a forward lung model opaque structure
+ */
 struct VENTILATION_Lung *
 VENTILATION_lung_create(struct VENTILATION_Resistance *, struct VENTILATION_Elastance *, VENTILATION_error *);
-
+/*
+ * Deallocates the opaque struct allocated using VENTILATION_lung_create
+ * Notice that if a null pointer is passed, error will be set to VENTILATION_ERROR_NULL
+ */
 void
 VENTILATION_lung_delete(struct VENTILATION_Lung*, VENTILATION_error*);
-
-struct VENTILATION_Resistance *
-VENTILATION_lung_resistance(const struct VENTILATION_Lung*, VENTILATION_error*);
-
+/*
+ * Retrieves the lung elastance from the forward linear model
+ */
 struct VENTILATION_Elastance *
 VENTILATION_lung_elastance(const struct VENTILATION_Lung*, VENTILATION_error*);
-
+/*
+ * Retrieves the lung resistance from the forward linear model
+ */
+struct VENTILATION_Resistance *
+VENTILATION_lung_resistance(const struct VENTILATION_Lung*, VENTILATION_error*);
+/*
+ * Changes the lung elastance in the forward linear model
+ */
+void
+VENTILATION_lung_set_elastance(
+          struct VENTILATION_Lung*
+        , const VENTILATION_Elastance*
+        , VENTILATION_error*
+        );
+/*
+ * Changes the lung resistance in the forward linear model
+ */
+void
+VENTILATION_lung_set_resistance(
+          struct VENTILATION_Lung*
+        , const VENTILATION_Resistance*
+        , VENTILATION_error*
+        );
+/*
+ * Runs the lung forward model, estimating the airway pressure from
+ * the given elastance, resistance, flow and volume measurements
+ */
 struct VENTILATION_Pressure *
 VENTILATION_lung_forward(
           const struct VENTILATION_Lung*
