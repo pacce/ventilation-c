@@ -17,8 +17,16 @@
 
 #include "ventilation-utilities.h"
 
+/*
+ * Sets ventilation templates types to float precision
+ */
+using PCV       = ventilation::modes::PCV<float>;
+using VCV       = ventilation::modes::VCV<float>;
+using Modes     = ventilation::Modes<float>;
+using Control   = ventilation::modes::visitor::Control<float>;
+
 struct VENTILATION_Ventilator {
-    ventilation::Modes<float> mode;
+    Modes mode;
 };
 
 struct VENTILATION_Ventilator *
@@ -27,15 +35,11 @@ VENTILATION_ventilator_pcv(
         , const struct VENTILATION_PEEP *           peep
         , const struct VENTILATION_Pressure_Peak *  peak
         , VENTILATION_error *                       error
-        ) 
+        )
 {
     *error = VENTILATION_ERROR_OK;
 
-    ventilation::Modes<float> ventilator = ventilation::modes::PCV<float>(
-              peep->value
-            , peak->value
-            , cycle->value
-            );
+    Modes ventilator = PCV(peep->value, peak->value, cycle->value);
     return new VENTILATION_Ventilator(ventilator);
 }
 
@@ -49,11 +53,7 @@ VENTILATION_ventilator_vcv(
 {
     *error = VENTILATION_ERROR_OK;
 
-    ventilation::Modes<float> ventilator = ventilation::modes::VCV<float>(
-              peep->value
-            , flow->value
-            , cycle->value
-            );
+    Modes ventilator = VCV(peep->value, flow->value, cycle->value);
     return new VENTILATION_Ventilator(ventilator);
 }
 
@@ -62,14 +62,14 @@ VENTILATION_ventilator_control(
           struct VENTILATION_Ventilator *   context
         , struct VENTILATION_Lung *         lung
         , VENTILATION_error *               error
-        ) 
+        )
 {
     *error = VENTILATION_ERROR_OK;
 
     using namespace std::chrono_literals;
     std::chrono::duration<float> step = 100us;
 
-    ventilation::modes::visitor::Control<float> control{lung->value, step};
+    Control control{lung->value, step};
     ventilation::Packet packet = std::visit(control, context->mode);
 
     return new VENTILATION_Packet(packet);
