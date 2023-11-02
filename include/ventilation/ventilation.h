@@ -809,7 +809,13 @@ VENTILATION_cycle_create(const struct VENTILATION_Frequency*, const struct VENTI
 
 void
 VENTILATION_cycle_delete(struct VENTILATION_Cycle*, VENTILATION_error*);
-
+/*
+ * Creates a pressure controlled ventilator.
+ * It requires:
+ *     - A ventilation cycle description
+ *     - Positive End Expiratory Pressure target for the expiratory phase
+ *     - Pressure Peak at the inspiration target for the inspiratory phase
+ */
 struct VENTILATION_Ventilator *
 VENTILATION_ventilator_pcv(
           const struct VENTILATION_Cycle*
@@ -817,7 +823,13 @@ VENTILATION_ventilator_pcv(
         , const struct VENTILATION_Pressure_Peak*
         , VENTILATION_error*
         );
-
+/*
+ * Creates a volume controlled ventilator.
+ * It requires:
+ *     - A ventilation cycle description
+ *     - Positive End Expiratory Pressure target for the expiratory phase
+ *     - The target flow for the inspiratory phase
+ */
 struct VENTILATION_Ventilator *
 VENTILATION_ventilator_vcv(
           const struct VENTILATION_Cycle*
@@ -825,14 +837,19 @@ VENTILATION_ventilator_vcv(
         , const struct VENTILATION_Flow*
         , VENTILATION_error*
         );
-
+/*
+ * Given a ventilator mode and a patient, described by the lung,
+ * excites the system and estimates the airway pressure, flow and volume.
+ */
 struct VENTILATION_Packet *
 VENTILATION_ventilator_control(
           struct VENTILATION_Ventilator *
         , struct VENTILATION_Lung *
         , VENTILATION_error *
         );
-
+/*
+ * Deallocates the ventilator, cleaning up the resources.
+ */
 void
 VENTILATION_ventilator_delete(struct VENTILATION_Ventilator*, VENTILATION_error*);
 
