@@ -130,3 +130,19 @@ VENTILATION_ventilator_set_flow(
         std::visit(ventilation::modes::setter::Flow<float>(flow->value), context->mode);
     }
 }
+
+
+void
+VENTILATION_ventilator_set_cycle(
+          struct VENTILATION_Ventilator *   context
+        , struct VENTILATION_Cycle *        cycle
+        , VENTILATION_error *               error
+        )
+{
+    if ((nullptr == context) or (nullptr == cycle)) {
+        *error = VENTILATION_ERROR_NULL;
+    } else {
+        *error = VENTILATION_ERROR_OK;
+        std::visit(ventilation::modes::setter::Cycle<float>(cycle->value), context->mode);
+    }
+}

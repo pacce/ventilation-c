@@ -883,6 +883,15 @@ VENTILATION_ventilator_set_flow(
         , struct VENTILATION_Flow*
         , VENTILATION_error*
         );
+/*
+ * Adjusts the ventilator cycle parameters.
+ */
+void
+VENTILATION_ventilator_set_cycle(
+          struct VENTILATION_Ventilator*
+        , struct VENTILATION_Cycle*
+        , VENTILATION_error*
+        );
 
 #ifdef __cplusplus
 }
