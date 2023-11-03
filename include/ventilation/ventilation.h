@@ -852,6 +852,37 @@ VENTILATION_ventilator_control(
  */
 void
 VENTILATION_ventilator_delete(struct VENTILATION_Ventilator*, VENTILATION_error*);
+/*
+ * Adjusts the ventilator peep.
+ */
+void
+VENTILATION_ventilator_set_peep(
+          struct VENTILATION_Ventilator*
+        , struct VENTILATION_PEEP*
+        , VENTILATION_error*
+        );
+/*
+ * Adjusts the ventilator peak pressure.
+ * Notice that VCV modes do not have pressure peak, therefore this is a nop
+ * when VENTILATION_Ventilator holds a VCV ventilator.
+ */
+void
+VENTILATION_ventilator_set_pressure_peak(
+          struct VENTILATION_Ventilator*
+        , struct VENTILATION_Pressure_Peak*
+        , VENTILATION_error*
+        );
+/*
+ * Adjusts the ventilator target flow
+ * Notice that PCV modes do not have target flow, therefore this is a nop
+ * when VENTILATION_Ventilator holds a PCV ventilator.
+ */
+void
+VENTILATION_ventilator_set_flow(
+          struct VENTILATION_Ventilator*
+        , struct VENTILATION_Flow*
+        , VENTILATION_error*
+        );
 
 #ifdef __cplusplus
 }

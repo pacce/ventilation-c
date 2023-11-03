@@ -1,6 +1,6 @@
 [wrap-git]
 url         = git@github.com:pacce/ventilation.git
-revision    = 5c36563ee44c23ffe014c3ab30b982e26d40650d
+revision    = 9295b83bc8240e990006d6e48a3d16e88348fa04
 
 [provide]
 ventilation  = ventilation_dep

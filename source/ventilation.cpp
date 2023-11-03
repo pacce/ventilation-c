@@ -84,3 +84,49 @@ VENTILATION_ventilator_delete(struct VENTILATION_Ventilator * context, VENTILATI
         delete context;
     }
 }
+
+void
+VENTILATION_ventilator_set_peep(
+          struct VENTILATION_Ventilator *   context
+        , const struct VENTILATION_PEEP *   peep
+        , VENTILATION_error *               error
+        )
+{
+
+    if ((nullptr == context) or (nullptr == peep)) {
+        *error = VENTILATION_ERROR_NULL;
+    } else {
+        *error = VENTILATION_ERROR_OK;
+        std::visit(ventilation::modes::setter::PEEP<float>(peep->value), context->mode);
+    }
+}
+
+void
+VENTILATION_ventilator_set_pressure_peak(
+          struct VENTILATION_Ventilator *       context
+        , struct VENTILATION_Pressure_Peak *    peak
+        , VENTILATION_error *                   error
+        )
+{
+    if ((nullptr == context) or (nullptr == peak)) {
+        *error = VENTILATION_ERROR_NULL;
+    } else {
+        *error = VENTILATION_ERROR_OK;
+        std::visit(ventilation::modes::setter::Peak<float>(peak->value), context->mode);
+    }
+}
+
+void
+VENTILATION_ventilator_set_flow(
+          struct VENTILATION_Ventilator *   context
+        , struct VENTILATION_Flow *         flow
+        , VENTILATION_error *               error
+        )
+{
+    if ((nullptr == context) or (nullptr == flow)) {
+        *error = VENTILATION_ERROR_NULL;
+    } else {
+        *error = VENTILATION_ERROR_OK;
+        std::visit(ventilation::modes::setter::Flow<float>(flow->value), context->mode);
+    }
+}
