@@ -17,6 +17,8 @@ typedef int32_t VENTILATION_error;
 #define VENTILATION_ERROR_GENERIC  -1
 #define VENTILATION_ERROR_NULL     -2
 
+
+typedef float VENTILATION_Time;
 /*
  * VENTILATION_Compliance is an opaque structure that handles Compliance values.
  * VENTILATION_Elastance is an opaque structure that handles Elastance values.
@@ -817,6 +819,15 @@ VENTILATION_ratio_delete(struct VENTILATION_Ratio*, VENTILATION_error*);
 
 struct VENTILATION_Cycle *
 VENTILATION_cycle_create(const struct VENTILATION_Frequency*, const struct VENTILATION_Ratio*, VENTILATION_error*);
+
+struct VENTILATION_Cycle *
+VENTILATION_cycle_time(
+          VENTILATION_Time  // Inspiratory Time
+        , VENTILATION_Time  // Inspiratory Pause (if 0.0f it is ignored)
+        , VENTILATION_Time  // Expiratory Time
+        , VENTILATION_Time  // Expiratory Pause (if 0.0f it is ignored)
+        , VENTILATION_error*
+        );
 
 void
 VENTILATION_cycle_delete(struct VENTILATION_Cycle*, VENTILATION_error*);

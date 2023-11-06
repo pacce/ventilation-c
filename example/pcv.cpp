@@ -24,9 +24,7 @@ main(int, char**) {
     struct VENTILATION_Lung * lung      = VENTILATION_lung_create(resistance, elastance, &error);
     assert((error == VENTILATION_ERROR_OK));
 
-    struct VENTILATION_Frequency * frequency    = VENTILATION_frequency_bpm(30.0f, &error);
-    struct VENTILATION_Ratio * ratio            = VENTILATION_ratio_create(0.5f, 1.0f, &error);
-    struct VENTILATION_Cycle * cycle            = VENTILATION_cycle_create(frequency, ratio, &error);
+    struct VENTILATION_Cycle * cycle    = VENTILATION_cycle_time(1.0f, 0.5f, 3.0f, 0.0f, &error);
     assert((error == VENTILATION_ERROR_OK));
 
     struct VENTILATION_PEEP * peep              = VENTILATION_peep_create(5.0f, &error);
@@ -51,8 +49,6 @@ main(int, char**) {
     VENTILATION_pressure_peak_delete(peak, &error);
     VENTILATION_ventilator_delete(ventilator, &error);
 
-    VENTILATION_frequency_delete(frequency, &error);
-    VENTILATION_ratio_delete(ratio, &error);
     VENTILATION_cycle_delete(cycle, &error);
 
     VENTILATION_lung_delete(lung, &error);

@@ -53,6 +53,31 @@ VENTILATION_cycle_create(
     return new VENTILATION_Cycle(frequency->value, ratio->value);
 }
 
+struct VENTILATION_Cycle *
+VENTILATION_cycle_time(
+          VENTILATION_Time      inspiratory_time
+        , VENTILATION_Time      inspiratory_pause
+        , VENTILATION_Time      expiratory_time
+        , VENTILATION_Time      expiratory_pause
+        , VENTILATION_error * error
+        )
+{
+    using Time  = ventilation::Time<float>;
+    using Pause = std::optional<Time>;
+
+    *error = VENTILATION_ERROR_OK;
+
+    Time i      = Time(inspiratory_time);
+    Pause fst   = {};
+    Time e      = Time(expiratory_time);
+    Pause snd   = {};
+
+    if (inspiratory_pause > 0.0f)   { fst = Pause(inspiratory_pause); }
+    if (expiratory_pause > 0.0f)    { snd = Pause(expiratory_pause); }
+
+    return new VENTILATION_Cycle(i, fst, e, snd);
+}
+
 void
 VENTILATION_cycle_delete(struct VENTILATION_Cycle * context, VENTILATION_error * error) {
     if (nullptr == context) {
