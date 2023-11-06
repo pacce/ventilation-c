@@ -30,8 +30,8 @@ main(int, char**) {
     assert((error == VENTILATION_ERROR_OK));
 
     struct VENTILATION_PEEP * peep              = VENTILATION_peep_create(10.0f, &error);
-    struct VENTILATION_Flow * flow              = VENTILATION_flow_create(1.0f, &error);
-    struct VENTILATION_Ventilator * ventilator  = VENTILATION_ventilator_vcv(cycle, peep, flow, &error);
+    struct VENTILATION_Tidal_Volume * tidal     = VENTILATION_tidal_volume_create(0.5f, &error);
+    struct VENTILATION_Ventilator * ventilator  = VENTILATION_ventilator_vcv(cycle, peep, tidal, &error);
     assert((error == VENTILATION_ERROR_OK));
 
     for (std::size_t i = 0; i < 200000; i++) {
@@ -48,7 +48,7 @@ main(int, char**) {
     }
 
     VENTILATION_peep_delete(peep, &error);
-    VENTILATION_flow_delete(flow, &error);
+    VENTILATION_tidal_volume_delete(tidal, &error);
 
     VENTILATION_ventilator_delete(ventilator, &error);
 

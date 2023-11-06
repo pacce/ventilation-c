@@ -45,15 +45,15 @@ VENTILATION_ventilator_pcv(
 
 struct VENTILATION_Ventilator *
 VENTILATION_ventilator_vcv(
-          const struct VENTILATION_Cycle *  cycle
-        , const struct VENTILATION_PEEP *   peep
-        , const struct VENTILATION_Flow *   flow
-        , VENTILATION_error *               error
+          const struct VENTILATION_Cycle *          cycle
+        , const struct VENTILATION_PEEP *           peep
+        , const struct VENTILATION_Tidal_Volume *   tidal
+        , VENTILATION_error *                       error
         )
 {
     *error = VENTILATION_ERROR_OK;
 
-    Modes ventilator = VCV(peep->value, flow->value, cycle->value);
+    Modes ventilator = VCV(peep->value, tidal->value, cycle->value);
     return new VENTILATION_Ventilator(ventilator);
 }
 
@@ -117,17 +117,17 @@ VENTILATION_ventilator_set_pressure_peak(
 }
 
 void
-VENTILATION_ventilator_set_flow(
+VENTILATION_ventilator_set_tidal_volume(
           struct VENTILATION_Ventilator *   context
-        , struct VENTILATION_Flow *         flow
+        , struct VENTILATION_Tidal_Volume * tidal
         , VENTILATION_error *               error
         )
 {
-    if ((nullptr == context) or (nullptr == flow)) {
+    if ((nullptr == context) or (nullptr == tidal)) {
         *error = VENTILATION_ERROR_NULL;
     } else {
         *error = VENTILATION_ERROR_OK;
-        std::visit(ventilation::modes::setter::Flow<float>(flow->value), context->mode);
+        std::visit(ventilation::modes::setter::Tidal<float>(tidal->value), context->mode);
     }
 }
 

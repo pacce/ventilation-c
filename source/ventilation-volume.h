@@ -11,4 +11,12 @@ struct VENTILATION_Volume {
     VENTILATION_Volume(const ventilation::Volume<float>& v) : value(v) {}
 };
 
+struct VENTILATION_Tidal_Volume {
+    ventilation::volume::Tidal<float> value;
+
+    VENTILATION_Tidal_Volume(const float v) : value(v) {}
+    VENTILATION_Tidal_Volume(const ventilation::volume::Tidal<float>& v) : value(v) {}
+    VENTILATION_Tidal_Volume(const ventilation::Volume<float>& v) : value(v) {}
+};
+
 #endif // VENTILATION_VOLUME_H__

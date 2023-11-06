@@ -161,3 +161,27 @@ VENTILATION_volume_le(
         return VENTILATION_BOOL((lhs->value <= rhs->value));
     }
 }
+
+struct VENTILATION_Tidal_Volume *
+VENTILATION_tidal_volume_create(const float value, VENTILATION_error * error) {
+    *error = VENTILATION_ERROR_OK;
+
+    VENTILATION_Tidal_Volume * context = new VENTILATION_Tidal_Volume(value);
+    return context;
+}
+
+void
+VENTILATION_tidal_volume_delete(struct VENTILATION_Tidal_Volume * context, VENTILATION_error * error) {
+    if (nullptr == context) {
+        *error = VENTILATION_ERROR_NULL;
+    } else {
+        *error = VENTILATION_ERROR_OK;
+        delete context;
+    }
+}
+
+float
+VENTILATION_tidal_volume_value(const struct VENTILATION_Volume * context, VENTILATION_error * error) {
+    *error = VENTILATION_ERROR_OK;
+    return static_cast<float>(context->value);
+}

@@ -46,6 +46,8 @@ struct VENTILATION_Resistance;
  */
 struct VENTILATION_Flow;
 struct VENTILATION_Volume;
+struct VENTILATION_Tidal_Volume;
+
 struct VENTILATION_Pressure;
 struct VENTILATION_PEEP;
 struct VENTILATION_Pressure_Peak;
@@ -720,6 +722,15 @@ VENTILATION_volume_le(
         , VENTILATION_error*
         );
 
+struct VENTILATION_Tidal_Volume *
+VENTILATION_tidal_volume_create(const float, VENTILATION_error*);
+
+void
+VENTILATION_tidal_volume_delete(struct VENTILATION_Tidal_Volume*, VENTILATION_error*);
+
+float
+VENTILATION_tidal_volume_value(const struct VENTILATION_Volume*, VENTILATION_error*);
+
 struct VENTILATION_Packet *
 VENTILATION_packet_create(const float, const float, const float, VENTILATION_error*);
 
@@ -834,7 +845,7 @@ struct VENTILATION_Ventilator *
 VENTILATION_ventilator_vcv(
           const struct VENTILATION_Cycle*
         , const struct VENTILATION_PEEP*
-        , const struct VENTILATION_Flow*
+        , const struct VENTILATION_Tidal_Volume*
         , VENTILATION_error*
         );
 /*
@@ -873,14 +884,14 @@ VENTILATION_ventilator_set_pressure_peak(
         , VENTILATION_error*
         );
 /*
- * Adjusts the ventilator target flow
- * Notice that PCV modes do not have target flow, therefore this is a nop
+ * Adjusts the ventilator target tidal volume
+ * Notice that PCV modes do not have target tidal volume, therefore this is a nop
  * when VENTILATION_Ventilator holds a PCV ventilator.
  */
 void
-VENTILATION_ventilator_set_flow(
+VENTILATION_ventilator_set_tidal_volume(
           struct VENTILATION_Ventilator*
-        , struct VENTILATION_Flow*
+        , struct VENTILATION_Tidal_Volume*
         , VENTILATION_error*
         );
 /*
