@@ -859,6 +859,13 @@ VENTILATION_ventilator_vcv(
         , const struct VENTILATION_Tidal_Volume*
         , VENTILATION_error*
         );
+
+void
+VENTILATION_ventilator_set_resolution(
+          struct VENTILATION_Ventilator *
+        , VENTILATION_Time
+        , VENTILATION_error *
+        );
 /*
  * Given a ventilator mode and a patient, described by the lung,
  * excites the system and estimates the airway pressure, flow and volume.
@@ -866,7 +873,8 @@ VENTILATION_ventilator_vcv(
 struct VENTILATION_Packet *
 VENTILATION_ventilator_control(
           struct VENTILATION_Ventilator *
-        , struct VENTILATION_Lung *
+        , const struct VENTILATION_Lung *
+        , VENTILATION_Time
         , VENTILATION_error *
         );
 /*

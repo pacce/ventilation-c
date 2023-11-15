@@ -20,13 +20,19 @@
 /*
  * Sets ventilation templates types to float precision
  */
+using Packet    = ventilation::Packet<float>;
 using PCV       = ventilation::modes::PCV<float>;
 using VCV       = ventilation::modes::VCV<float>;
 using Modes     = ventilation::Modes<float>;
+using Time      = ventilation::Time<float>;
 using Control   = ventilation::modes::visitor::Control<float>;
 
+using namespace std::chrono_literals;
+const Time RESOLUTION = 100us;
+
 struct VENTILATION_Ventilator {
-    Modes mode;
+    Modes   mode;
+    Time    resolution;
 };
 
 struct VENTILATION_Ventilator *
@@ -40,7 +46,7 @@ VENTILATION_ventilator_pcv(
     *error = VENTILATION_ERROR_OK;
 
     Modes ventilator = PCV(peep->value, peak->value, cycle->value);
-    return new VENTILATION_Ventilator(ventilator);
+    return new VENTILATION_Ventilator(ventilator, RESOLUTION);
 }
 
 struct VENTILATION_Ventilator *
@@ -54,25 +60,50 @@ VENTILATION_ventilator_vcv(
     *error = VENTILATION_ERROR_OK;
 
     Modes ventilator = VCV(peep->value, tidal->value, cycle->value);
-    return new VENTILATION_Ventilator(ventilator);
+    return new VENTILATION_Ventilator(ventilator, RESOLUTION);
+}
+
+void
+VENTILATION_ventilator_set_resolution(
+          struct VENTILATION_Ventilator *   context
+        , VENTILATION_Time                  resolution
+        , VENTILATION_error *               error
+        )
+{
+    if (nullptr == context) {
+        *error = VENTILATION_ERROR_NULL;
+    } else {
+        *error = VENTILATION_ERROR_OK;
+        context->resolution = Time(resolution);
+    }
 }
 
 struct VENTILATION_Packet *
 VENTILATION_ventilator_control(
           struct VENTILATION_Ventilator *   context
-        , struct VENTILATION_Lung *         lung
+        , const struct VENTILATION_Lung *   lung
+        , VENTILATION_Time                  step
         , VENTILATION_error *               error
         )
 {
     *error = VENTILATION_ERROR_OK;
 
-    using namespace std::chrono_literals;
-    std::chrono::duration<float> step = 100us;
+    if (nullptr == context) {
+        *error = VENTILATION_ERROR_NULL;
+        return nullptr;
+    } else {
+        Time current            = 0s;
+        const Time total        = Time(step);
+        const Time& resolution  = context->resolution;
 
-    Control control{lung->value, step};
-    ventilation::Packet packet = std::visit(control, context->mode);
-
-    return new VENTILATION_Packet(packet);
+        Control control{lung->value, resolution};
+        std::vector<Packet> ps;
+        while (current <= total) {
+            current += resolution;
+            ps.push_back(std::visit(control, context->mode));
+        }
+        return new VENTILATION_Packet(ventilation::mean(ps));
+    }
 }
 
 void

@@ -4,8 +4,10 @@
 #include <cstddef>
 #include <cstdio>
 
-const float ELASTANCE   = 1000.0f / 30.0f;
-const float RESISTANCE  = 50.0f;
+const float ELASTANCE           = 1000.0f / 30.0f;
+const float RESISTANCE          = 50.0f;
+const VENTILATION_Time TOTAL    = 50;       // 10 seconds of simulation
+const VENTILATION_Time STEP     = 10e-3;    // 10 milliseconds steps
 
 char *
 format(const VENTILATION_Packet * packet, VENTILATION_error * error) {
@@ -32,8 +34,8 @@ main(int, char**) {
     struct VENTILATION_Ventilator * ventilator  = VENTILATION_ventilator_pcv(cycle, peep, peak, &error);
     assert((error == VENTILATION_ERROR_OK));
 
-    for (std::size_t i = 0; i < 200000; i++) {
-        struct VENTILATION_Packet * packet = VENTILATION_ventilator_control(ventilator, lung, &error);
+    for (VENTILATION_Time current = 0; current < TOTAL; current += STEP) {
+        struct VENTILATION_Packet * packet = VENTILATION_ventilator_control(ventilator, lung, STEP, &error);
         assert((error == VENTILATION_ERROR_OK));
 
         char * buffer = format(packet, &error);
